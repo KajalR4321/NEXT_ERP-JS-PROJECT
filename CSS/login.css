@@ -1,0 +1,140 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container{
+    /* min-height:100vh; */
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+    width: 100%;
+    max-width: 540px;
+}
+
+.logo-circle{
+    width:70px;
+    height:70px;
+    background:#11a0e6;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+.logo-circle img{
+    width:40px;
+}
+
+.logo-box{
+    text-align:center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.logo-box h1{
+    font-size:2.4rem;
+    margin-top:15px;
+   
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+ 
+}
+
+.logo-box p{
+    color:#666;
+    font-size: 1.6rem;
+    margin-top: 20px;
+    
+}
+
+.login-card{
+    /* width:45%; */
+    /* height: 150px; */
+    width: 100%;
+    padding:3em;
+    border:1px solid #ddd;
+    border-radius:10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+
+.login-card h2{
+    margin-bottom:0.3em;
+    font-size: 1.9rem;
+}
+
+.login-card p{
+    color:#666;
+    font-size:1.3rem;
+}
+
+.login-card label{
+    display:block;
+    margin-top:20px;
+    font-weight:600;
+    font-size: 1.2rem;
+    color: rgb(17, 17, 17);
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.login-card input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:1.2rem;
+}
+
+
+
+
+.login-card input:hover{
+    border-color: #11a0e6;
+}
+
+.login-card input:focus{
+    border-color: #11a0e6;
+    box-shadow: 0 0 0 2px rgba(17,160,230,0.2);
+    outline: none;
+}
+.password-box:hover{
+    
+    border-color: #11a0e6;}
+
+
+button{
+    width:100%;
+    background:#11a0e6;
+    color:#fff;
+    border:none;
+    padding:12px;
+    border-radius:6px;
+    margin-top:25px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0c8dd0;
+}
