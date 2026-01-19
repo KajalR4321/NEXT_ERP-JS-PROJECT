@@ -10,5 +10,6 @@ const logOutBtn=document.getElementById("logOutBtn");
 logOutBtn.addEventListener("click", ()=>{
       // Remove the "logIn" item from localStorage
   // This clears the user's login state, effectively logging them out
-  localStorage.removeItem("logIn")
+  localStorage.removeItem("logIn");
+  window.location.href="login.html";
 })

@@ -170,6 +170,8 @@ a {
     object-fit: contain;
 }
 
+
+
 .dashboard_sidebar__nav ul li a:hover {
     background-color: #343232;
     padding: 0.3em ;
@@ -187,6 +189,13 @@ a {
     gap: 1em;
 }
 
+.logout-icon{
+    
+    width: 24px;    
+    height: 28px;
+    object-fit: contain;
+
+}
 
 .dashboard_sidebar__footer button {
     all: unset;
