@@ -1,31 +1,43 @@
+// ===================== IMPORTS =====================
 import Inventory from "./Classes/inventoryClasses.js";
 import { InventoryData } from "./storage.js";
 
-console.log(InventoryData);
-
-// Track edit mode
+// ===================== GLOBAL VARIABLES =====================
+// store id of product being edited
 let editId = null;
 
-// DOM references
+// ===================== DOM REFERENCES =====================
+
+// ADD PRODUCT
 const addProductBtn = document.getElementById("addProductBtn");
 const addProductDialog = document.getElementById("addProductDialog");
 const addProductForm = document.getElementById("addProductForm");
+const closeAddProductDialog = document.getElementById("closeAddProductDialog")
+//span
+
+
+// EDIT PRODUCT
+const editProductDialog = document.getElementById("editProductDialog");
+const editProductForm = document.getElementById("editProductForm");
+const editCategory = document.getElementById("editCategory");
+const editCancelBtn = document.getElementById("editCancelBtn");
+
+// TABLE
 const inventory_tableBody = document.getElementById("inventory_tableBody");
 const table_template = document.getElementById("table_template");
 
-// Open dialog
+// ===================== OPEN ADD PRODUCT DIALOG =====================
 addProductBtn.addEventListener("click", () => {
   addProductDialog.showModal();
 });
-
-// Close dialog on outside click
+// Close dialog when clicking outside (optional)
 addProductDialog.addEventListener("click", (e) => {
-  if (e.target === addProductDialog) {
-    addProductDialog.close();
-  }
+    if (e.target === addProductDialog) {
+        addProductDialog.close();
+    }
 });
 
-// ===================== FORM SUBMIT =====================
+// ===================== ADD PRODUCT LOGIC =====================
 addProductForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -35,99 +47,102 @@ addProductForm.addEventListener("submit", (e) => {
   const productQuantity = Number(e.target[3].value);
 
   let productStatus = "In Stock";
+  if (productQuantity <= 0) productStatus = "Out of Stock";
+  else if (productQuantity <= 10) productStatus = "Low Stock";
 
-  if (productQuantity > 10) productStatus = "In Stock";
-  else if (productQuantity >= 1) productStatus = "Low Stock";
-  else productStatus = "Out of Stock";
+  const inventory = new Inventory(
+    Date.now(),
+    productName,
+    productCategory,
+    productPrice,
+    productQuantity,
+    productStatus,
+    new Date()
+  );
 
-  const currentTimeStamp = new Date();
+  InventoryData.push(inventory);
+  localStorage.setItem("InventoryData", JSON.stringify(InventoryData));
 
-  // ===== EDIT MODE =====
-  if (editId) {
-    const product = InventoryData.find(p => p.id === editId);
+  addProductForm.reset();
+  addProductDialog.close();
+  render_inventory_data(InventoryData);
+});
 
-    product.productName = productName;
-    product.productCategory = productCategory;
-    product.productPrice = productPrice;
-    product.productQuantity = productQuantity;
-    product.productStatus = productStatus;
+// ===================== EDIT PRODUCT SUBMIT =====================
+editProductForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-    editId = null;
-  }
-  // ===== ADD MODE =====
-  else {
-    const id = new Date().getTime();
-    const inventory = new Inventory(
-      id,
-      productName,
-      productCategory,
-      productPrice,
-      productQuantity,
-      productStatus,
-      currentTimeStamp
-    );
-    InventoryData.push(inventory);
+  const product = InventoryData.find(item => item.id === editId);
+
+  if (product) {
+    product.productCategory = editCategory.value;
   }
 
   localStorage.setItem("InventoryData", JSON.stringify(InventoryData));
 
-  addProductDialog.close();
+  editId = null;
+  editProductDialog.close();
   render_inventory_data(InventoryData);
-  addProductForm.reset();
 });
 
-// ===================== RENDER TABLE =====================
+// ===================== CANCEL EDIT =====================
+editCancelBtn.addEventListener("click", () => {
+  editId = null;
+  editProductDialog.close();
+});
+
+// ===================== DELETE PRODUCT =====================
+function deleteProduct(id) {
+  if (!confirm("Are you sure you want to delete this product?")) return;
+
+  const index = InventoryData.findIndex(item => item.id === id);
+  if (index === -1) return;
+
+  InventoryData.splice(index, 1);
+  localStorage.setItem("InventoryData", JSON.stringify(InventoryData));
+  render_inventory_data(InventoryData);
+}
+
+
+
+// ===================== RENDER INVENTORY TABLE =====================
 function render_inventory_data(data) {
   inventory_tableBody.innerHTML = "";
 
-  data.forEach((Inventory) => {
-    const table_row = table_template.content.cloneNode(true);
-    const td = table_row.querySelectorAll("td");
+  data.forEach((item) => {
+    const row = table_template.content.cloneNode(true);
+    const td = row.querySelectorAll("td");
 
-    td[0].textContent = Inventory.productName;
-    td[1].textContent = Inventory.productCategory;
-    td[2].textContent = Inventory.productPrice;
-    td[3].textContent = Inventory.productQuantity;
-    td[4].textContent = Inventory.productStatus;
+    td[0].textContent = item.productName;
+    td[1].textContent = item.productCategory;
+    td[2].textContent = item.productPrice;
+    td[3].textContent = item.productQuantity;
+    td[4].textContent = item.productStatus;
 
-    // Actions
     td[5].innerHTML = `
       <button class="edit-btn">Edit</button>
       <button class="delete-btn">Delete</button>
     `;
 
-    const editBtn = table_row.querySelector(".edit-btn");
-    const deleteBtn = table_row.querySelector(".delete-btn");
-
-    // EDIT
-    editBtn.addEventListener("click", () => {
-      editId = Inventory.id;
-
-      addProductForm[0].value = Inventory.productName;
-      addProductForm[1].value = Inventory.productCategory;
-      addProductForm[2].value = Inventory.productPrice;
-      addProductForm[3].value = Inventory.productQuantity;
-
-      addProductDialog.showModal();
+    // EDIT BUTTON
+    row.querySelector(".edit-btn").addEventListener("click", () => {
+      editId = item.id;
+      editCategory.value = item.productCategory;
+      editProductDialog.showModal();
     });
 
-    // DELETE
-    deleteBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to delete this product?")) {
-        const index = InventoryData.findIndex(p => p.id === Inventory.id);
-        InventoryData.splice(index, 1);
-
-        localStorage.setItem("InventoryData", JSON.stringify(InventoryData));
-        render_inventory_data(InventoryData);
-      }
+    // DELETE BUTTON
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+      deleteProduct(item.id);
     });
 
-    inventory_tableBody.append(table_row);
+    inventory_tableBody.append(row);
   });
 }
 
+
+        
+
+
 // ===================== INITIAL LOAD =====================
 render_inventory_data(InventoryData);
-
-    
-

@@ -60,7 +60,7 @@
 .filterSection,
 .tableSection {
     background: #fff;
-    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 3px 2px rgba(12, 12, 12, 0.2);
     padding: 2%;
     border-radius: 12px;
     margin-top: 2%;
@@ -190,4 +190,108 @@
     cursor: pointer;
     font-size: 1.2rem;
     transition: all 0.3s ease-in-out;
+}
+/* ===================== DIALOG RESET ===================== */
+dialog {
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    width: 400px;
+    max-width: 90%;
+    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+}
+
+/* ===================== FORM STYLING ===================== */
+#editProductForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f6f0ff, #e0d4ff);
+    border-radius: 10px;
+    position: relative;
+}
+
+/* ===================== HEADING ===================== */
+#editProductForm h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #6a1b9a;
+    background: #e1bee7;
+    padding: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* ===================== LABELS ===================== */
+#editProductForm label {
+    font-weight: bold;
+    color: #4a148c;
+    margin-bottom: 5px;
+}
+
+/* ===================== INPUTS & SELECT ===================== */
+#editProductForm input,
+#editProductForm select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #9c27b0;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+#editProductForm input:focus,
+#editProductForm select:focus {
+    border-color: #6a1b9a;
+    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+}
+
+/* ===================== BUTTONS ===================== */
+#editProductForm .edit-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#editProductForm button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* Update Button */
+#editProductForm button[type="submit"] {
+    background: #6a1b9a;
+    color: white;
+}
+
+#editProductForm button[type="submit"]:hover {
+    background: #4a148c;
+}
+
+/* Cancel Button */
+#editProductForm button#editCancelBtn {
+    background: #e0e0e0;
+    color: #4a148c;
+}
+
+#editProductForm button#editCancelBtn:hover {
+    background: #bdbdbd;
+}
+
+/* ===================== DIALOG CENTERING ===================== */
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
